@@ -29,6 +29,7 @@ public class UserController {
     public ResponseEntity<ApiResponse<Void>> signUp(@RequestBody UserDto.SignUpRequest userDto) {
         userService.signUp(userDto);
         return ResponseEntity.ok(ApiResponse.successMessage("회원가입이 완료되었습니다."));
+
     }
 
     // 로그인

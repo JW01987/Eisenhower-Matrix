@@ -30,12 +30,20 @@ public class TopicService {
     }
 
     // 토픽 수정
-    public void updateTopic(Topic topic) {
+    public void updateTopic(Topic topic, Long userId) {
+        Topic existingTopic = findByTopicId(userId, topic.getTopicId());
+        if (existingTopic == null) {
+            throw new IllegalArgumentException("토픽을 찾을 수 없습니다.");
+        }
         topicMapper.updateTopic(topic);
     }
 
     // 토픽 삭제
-    public void deleteTopic(Long topicId) {
-        topicMapper.deleteTopic(topicId);
+    public void deleteTopic(Long topicId, Long userId) {
+        Topic existingTopic = findByTopicId(userId, topicId);
+        if (existingTopic == null) {
+            throw new IllegalArgumentException("토픽을 찾을 수 없습니다.");
+        }
+        topicMapper.deleteTopic(topicId, userId);
     }
 }

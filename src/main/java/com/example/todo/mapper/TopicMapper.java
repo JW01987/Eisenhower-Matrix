@@ -22,5 +22,5 @@ public interface TopicMapper {
     void updateTopic(Topic topic);
 
     // 4. 토픽 삭제
-    void deleteTopic(@Param("topicId") Long topicId);
+    void deleteTopic(@Param("topicId") Long topicId, @Param("userId") Long userId);
 }
