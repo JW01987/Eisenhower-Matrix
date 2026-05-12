@@ -19,6 +19,10 @@ public class TodoService {
 
     // 할일 목록 조회 (특정 토픽)
     public List<Todo> findByTopicId(Long topicId, Long userId) {
+        Topic topic = topicMapper.findByTopicId(userId, topicId);
+        if (topic == null) {
+            throw new IllegalArgumentException("존재하지 않는 토픽입니다.");
+        }
         List<Todo> todos = todoMapper.findByTopicId(topicId, userId);
         return todos;
     }
