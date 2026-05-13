@@ -15,10 +15,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginCheckInterceptor)
-                .addPathPatterns("/api/**") // 모든 API 적용
+                .addPathPatterns("/api/**")
                 .excludePathPatterns(
-                        "/api/users/signup", // 회원가입 제외
-                        "/api/users/login" // 로그인 제외
+                        "/api/users/signup",
+                        "/api/users/login"
                 );
     }
 }
