@@ -50,6 +50,7 @@ public class TodoService {
         if (existingTodo == null) {
             throw new IllegalArgumentException("할일을 찾을 수 없습니다.");
         }
+        todo.setUserId(userId);
         todoMapper.updateTodo(todo);
     }
 
