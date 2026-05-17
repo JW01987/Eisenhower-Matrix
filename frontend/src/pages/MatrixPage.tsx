@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import api from "../api/axios";
 import type { ApiResponse, Todo } from "../api/types";
+import { useToast } from "../components/Toast";
 
 const QUADRANTS = [
   {
@@ -34,6 +35,7 @@ const QUADRANTS = [
 export default function MatrixPage() {
   const { topicId } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -49,7 +51,7 @@ export default function MatrixPage() {
       );
       setTodos([...response.data.data]);
     } catch {
-      alert("할일 목록을 불러오는데 실패했습니다.");
+      showToast("할일 목록을 불러오는데 실패했습니다.", "error");
     }
   };
 
@@ -70,7 +72,7 @@ export default function MatrixPage() {
       );
       await fetchTodos();
     } catch {
-      alert("상태 변경에 실패했습니다.");
+      showToast("상태 변경에 실패했습니다.", "error");
     }
   };
 
@@ -88,7 +90,7 @@ export default function MatrixPage() {
       setSelectedQuadrant(null);
       await fetchTodos();
     } catch {
-      alert("할일 추가에 실패했습니다.");
+      showToast("할일 추가에 실패했습니다.", "error");
     }
   };
 
@@ -110,7 +112,7 @@ export default function MatrixPage() {
       setSelectedTodo(null);
       await fetchTodos();
     } catch {
-      alert("수정에 실패했습니다.");
+      showToast("수정에 실패했습니다.", "error");
     }
   };
 
@@ -120,7 +122,7 @@ export default function MatrixPage() {
       await api.delete(`/api/todos/${todoId}`);
       await fetchTodos();
     } catch {
-      alert("삭제에 실패했습니다.");
+      showToast("삭제에 실패했습니다.", "error");
     }
   };
 

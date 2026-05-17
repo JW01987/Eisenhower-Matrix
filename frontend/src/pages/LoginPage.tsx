@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import api from "../api/axios";
 import type { ApiResponse, User } from "../api/types";
+import { useToast } from "../components/Toast";
 
 type View = "home" | "login" | "signup";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [view, setView] = useState<View>("home");
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
@@ -22,10 +24,10 @@ export default function LoginPage() {
       if (response.data.success) {
         navigate("/topics", { replace: true });
       } else {
-        alert(response.data.message);
+        showToast(response.data.message, "error");
       }
     } catch {
-      alert("로그인 중 오류가 발생했습니다.");
+      showToast("로그인 중 오류가 발생했습니다.", "error");
     }
   };
 
@@ -38,13 +40,13 @@ export default function LoginPage() {
         username: name,
       });
       if (response.data.success) {
-        alert("회원가입이 완료되었습니다!");
+        showToast("회원가입이 완료되었습니다!", "success");
         setView("login");
       } else {
-        alert(response.data.message);
+        showToast(response.data.message, "error");
       }
     } catch {
-      alert("회원가입 중 오류가 발생했습니다.");
+      showToast("회원가입 중 오류가 발생했습니다.", "error");
     }
   };
 

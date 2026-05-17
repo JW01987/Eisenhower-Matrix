@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { Plus, LogOut, ChevronRight } from "lucide-react";
 import api from "../api/axios";
 import type { ApiResponse, Topic } from "../api/types";
+import { useToast } from "../components/Toast";
 
 const COLORS = [
   "from-pink-200 to-pink-300",
@@ -21,6 +22,7 @@ const getColor = (id: number) => COLORS[id % COLORS.length];
 
 export default function TopicsPage() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newTopicTitle, setNewTopicTitle] = useState("");
@@ -29,7 +31,7 @@ export default function TopicsPage() {
       const response = await api.get<ApiResponse<Topic[]>>("/api/topics");
       setTopics(response.data.data);
     } catch {
-      alert("토픽 목록을 불러오는데 실패했습니다.");
+      showToast("토픽 목록을 불러오는데 실패했습니다.", "error");
     }
   };
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function TopicsPage() {
       setShowAddModal(false);
       fetchTopics(); // 목록 새로고침
     } catch {
-      alert("토픽 추가에 실패했습니다.");
+      showToast("토픽 추가에 실패했습니다.", "error");
     }
   };
 
